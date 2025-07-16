@@ -14,7 +14,7 @@ const defaultConfig: Config = {
     clientId: ""
 }
 
-export function loadConfig(): Config {
+function loadConfig(): Config {
 
     if (!fs.existsSync(configPath)) {
         fs.mkdirSync(path.dirname(configPath), { recursive: true })
@@ -25,3 +25,5 @@ export function loadConfig(): Config {
 
     return JSON.parse(fs.readFileSync(configPath, "utf-8")) as Config
 }
+
+export const config = loadConfig()
