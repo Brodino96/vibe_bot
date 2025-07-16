@@ -13,7 +13,7 @@ export const playCommand = new Command(
         const voiceChannel = member.voice.channel
 
         if (!voiceChannel || voiceChannel.type !== ChannelType.GuildVoice) {
-            await interaction.reply({ content: "You need to be in a voice channel to play music!", ephemeral: true })
+            await interaction.reply({ content: "You need to be in a voice channel to play music!", flags: "Ephemeral" })
             return
         }
 
@@ -25,7 +25,7 @@ export const playCommand = new Command(
                 serverQueue.player.unpause()
                 await interaction.reply({ content: "Resumed the music!" })
             } else {
-                await interaction.reply({ content: "You need to provide a song to play!", ephemeral: true })
+                await interaction.reply({ content: "You need to provide a song to play!", flags: "Ephemeral" })
             }
             return
         }

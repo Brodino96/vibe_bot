@@ -8,7 +8,7 @@ export const leaveCommand = new Command(
 
         const serverQueue = musicQueue.get(interaction.guildId!)
         if (!serverQueue) {
-            await interaction.reply({ content: "I'm not in a voice channel!", ephemeral: true })
+            await interaction.reply({ content: "I'm not in a voice channel!", flags: "Ephemeral" })
             return
         }
 

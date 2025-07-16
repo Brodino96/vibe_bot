@@ -9,12 +9,12 @@ export const resumeCommand = new Command(
 
         const serverQueue = musicQueue.get(interaction.guildId!)
         if (!serverQueue) {
-            await interaction.reply({ content: "There is no song that I could resume!", ephemeral: true })
+            await interaction.reply({ content: "There is no song that I could resume!", flags: "Ephemeral" })
             return
         }
 
         if (serverQueue.player.state.status === AudioPlayerStatus.Playing) {
-            await interaction.reply({ content: "The music is already playing!", ephemeral: true })
+            await interaction.reply({ content: "The music is already playing!", flags: "Ephemeral" })
             return
         }
 

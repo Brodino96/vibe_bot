@@ -9,12 +9,12 @@ export const pauseCommand = new Command(
 
         const serverQueue = musicQueue.get(interaction.guildId!)
         if (!serverQueue) {
-            await interaction.reply({ content: "There is no song that I could pause!", ephemeral: true })
+            await interaction.reply({ content: "There is no song that I could pause!", flags: "Ephemeral" })
             return
         }
 
         if (serverQueue.player.state.status === AudioPlayerStatus.Paused) {
-            await interaction.reply({ content: "The music is already paused!", ephemeral: true })
+            await interaction.reply({ content: "The music is already paused!", flags: "Ephemeral" })
             return
         }
 

@@ -34,7 +34,7 @@ export class CommandManager {
             const { error } = await tryCatch(command.execute(interaction))
             if (error) {
                 console.error(`Failed to run command ${error}`)
-                await interaction.reply({ content: "There was an error while executing this command!", ephemeral: true })
+                await interaction.reply({ content: "There was an error while executing this command!", flags: "Ephemeral" })
             }
         })
     }

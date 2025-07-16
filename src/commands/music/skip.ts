@@ -8,12 +8,12 @@ export const skipCommand = new Command(
 
         const serverQueue = musicQueue.get(interaction.guildId!)
         if (!serverQueue) {
-            await interaction.reply({ content: "There is no song that I could skip!", ephemeral: true })
+            await interaction.reply({ content: "There is no song that I could skip!", flags: "Ephemeral" })
             return
         }
 
         if (serverQueue.songs.length === 0) {
-            await interaction.reply({ content: "There are no songs to skip!", ephemeral: true })
+            await interaction.reply({ content: "There are no songs to skip!", flags: "Ephemeral" })
             return
         }
 
