@@ -1,56 +1,49 @@
-import { REST } from "@discordjs/rest"
-import { Routes } from "discord-api-types/v9"
-import { loadConfig } from "./utils/config"
-import fs from "fs"
-import path from "path"
+import { REST, Routes } from "discord.js"
+import { config } from "./utils/config"
+import { tryCatch } from "typecatch"
 
-const config = loadConfig()
+async function registerCommands() {
 
-const commands: any[] = []
-
-function findCommandFiles(dir: string): string[] {
-    let files: string[] = []
-    const items = fs.readdirSync(dir, { withFileTypes: true })
-
-    for (const item of items) {
-        const fullPath = path.join(dir, item.name)
-        if (item.isDirectory()) {
-            files = files.concat(findCommandFiles(fullPath))
-        } else if (item.isFile() && item.name.endsWith(".ts") && !item.name.startsWith("_")) {
-            files.push(fullPath)
+    const commandsToRegister: { name: string, description: string, options: any[] }[] = [
+        {
+            name: "play",
+            description: "Plays the song that you specify",
+            options: [{name: "song", type: 3, description: "The song to play", required: false}]
+        },
+        {
+            name: "pause",
+            description: "Pauses the current song",
+            options: []
+        },
+        {
+            name: "resume",
+            description: "Resumes the paused song",
+            options: []
+        },
+        {
+            name: "skip",
+            description: "Skips the current song",
+            options: []
+        },
+        {
+            name: "leave",
+            description: "Makes the bot quit the current voice chat",
+            options: []
         }
-    }
-    return files
-}
+    ]
 
-const commandFiles = findCommandFiles(path.join(__dirname, "commands"))
+    const rest = new REST({ version: "9"}).setToken(config.token)
 
-for (const file of commandFiles) {
-    const commandModule = require(file)
-    for (const key in commandModule) {
-        if (commandModule[key] && commandModule[key].name) {
-            commands.push({
-                name: commandModule[key].name,
-                description: `Command for ${commandModule[key].name}`,
-                options: commandModule[key].name === "play" ? [{name: "song", type: 3, description: "The song to play", required: false}] : []
-            })
-        }
-    }
-}
+    const { error } = await tryCatch(rest.put(
+        Routes.applicationCommands(config.clientId),
+        { body: commandsToRegister }
+    ))
 
-const rest = new REST({ version: "9" }).setToken(config.token);
-
-(async () => {
-    try {
-        console.log("Started refreshing application (/) commands.")
-
-        await rest.put(
-            Routes.applicationCommands(config.clientId),
-            { body: commands },
-        )
-
-        console.log("Successfully reloaded application (/) commands.")
-    } catch (error) {
+    if (error) {
         console.error(error)
     }
-})()
+
+    console.log("Successfully reloaded application (/) commands")
+}
+
+registerCommands()
