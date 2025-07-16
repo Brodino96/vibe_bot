@@ -10,8 +10,8 @@ export interface Config {
 }
 
 const defaultConfig: Config = {
-    token: "YOUR_BOT_TOKEN",
-    clientId: ""
+    token: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    clientId: "xxxxxxxxxxxxxxxxxxx"
 }
 
 function loadConfig(): Config {
